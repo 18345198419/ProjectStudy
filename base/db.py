@@ -26,7 +26,7 @@ class MySQLCommand(object):
             print('连接成功')
         except:
             print('connect mysql error.')
-        return self.cursor
+        #return self.cursor
     # 查询数据
     def queryMysql(self, table):
         sql = "SELECT * FROM " + table;
@@ -43,12 +43,28 @@ class MySQLCommand(object):
 
     # 插入数据
 
-    def insertMysql(self, table, *args):
-        sql = "INSERT INTO " + table + " VALUES(" + args + "," + "'" + args + "'," + "'" + args + "')"
-        try:
-            self.cursor.execute(sql)
-        except:
-            print("insert failed.")
+
+    #def insertMysql(self, table,addr_id,token_id,unconfirm_amount,confirm_amount,safe_amount,transferrable,updated):
+    def insertMysql(self, table, *filed):
+        addr_id = filed[0]
+        token_id=filed[1]
+        unconfirm_amount=filed[2]
+        confirm_amount=filed[3]
+        safe_amount=filed[4]
+        transferrable=[5]
+        updated=filed[6]
+        print(addr_id)
+
+        sql = "INSERT INTO " + table + " VALUES(" + str(addr_id) + "," + str(addr_id) + "," + str(token_id) + "," + \
+              str(unconfirm_amount) + "," + str(confirm_amount) + "," + str(safe_amount) + "," +str(transferrable) + "," + updated + ");"
+        print(str(sql))
+        #
+        # try:
+        #     self.cursor.execute(sql)
+        #     self.conn.commit()
+        #     print(str(addr_id))
+        # except:
+        #     print("insert failed.")
 
     # 更新数据
 
