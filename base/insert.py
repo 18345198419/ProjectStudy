@@ -29,4 +29,4 @@ class insert_into():
 
 
 a=insert_into()
-a.inser('dotwallet_zyd', 'address_amount')
+#a.inser('dotwallet_zyd', 'address_amount')
