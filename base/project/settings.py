@@ -1,5 +1,5 @@
-
 import random
+
 
 class Settings():
     """存储《外星人入侵》的所有设置的类"""
@@ -22,4 +22,10 @@ class Settings():
         self.bullet_height = 15
         self.bullet_color = (60, 60, 60)
         self.bullet_allowed = 3
+
+        # 外星人设置
+        self.alien_speed_factor = 1
+        self.fleet_speed = 10
+        # fleet_direction为1表示向右移，为-1表示向左移
+        self.fleet_direction = 1
 
