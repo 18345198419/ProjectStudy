@@ -15,6 +15,7 @@ class Settings():
         # 飞船的设置
         # 飞船的移动速度
         self.ship_speed_factor = 5
+        self.ship_limit = 1
 
         # 子弹设置
         self.bullet_speed_factor = 3
