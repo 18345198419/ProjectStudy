@@ -53,6 +53,7 @@ def check_play_botton(ai_settings, screen, stats, ship, bullets, aliens, play_bo
     """玩家单机Play按钮是开始游戏"""
     botton_click = play_botton.rect.collidepoint(mouse_x, mouse_y)
     if botton_click and not stats.game_active:
+        ai_settings.initialize_dynamic_settings()
         # 隐藏光标
         pygame.mouse.set_visible(False)
         # 重置游戏统计信息
@@ -75,7 +76,7 @@ def fire_bullet(ai_settings, screen, ship, bullets):
     bullets.add(new_bullet)
 
 
-def update_screen(ai_settings, screen, stats, ship, aliens, bullets, play_button):
+def update_screen(ai_settings, screen, stats, sb, ship, aliens, bullets, play_button):
     screen.fill(ai_settings.bg_color)
     # 在飞船和外星人后面重绘所有子弹
     for bullet in bullets.sprites():
@@ -83,6 +84,8 @@ def update_screen(ai_settings, screen, stats, ship, aliens, bullets, play_button
     ship.blitme()
     # alien.blitme()
     aliens.draw(screen)
+    # 显示得分
+    sb.show_score()
     # 如果游戏处于非活动状态，就绘制Play按钮
     if not stats.game_active:
         play_button.draw_button()
@@ -108,6 +111,7 @@ def check_bullet_alien_collsions(ai_settings, screen, ship, aliens, bullets):
     # 外星人全部消失之后，重新生成外星人
     if len(aliens) == 0:
         bullets.empty()
+        ai_settings.increase_speed()
         creat_alien_group(ai_settings, screen, ship, aliens)
 
 
@@ -156,9 +160,11 @@ def check_fleet_edges(ai_settings, aliens):
 
 
 def check_fleet_direction(ai_settings, aliens):
-    """将整群外星人下移，并改变他们的方向"""
+    """外星人到达边缘时，将整群外星人下移，并改变他们的方向"""
     for alien in aliens.sprites():
+        # 外星人整体下移
         alien.rect.y += ai_settings.fleet_speed
+    # 改变移动方向
     ai_settings.alien_speed_factor *= -1
 
 
