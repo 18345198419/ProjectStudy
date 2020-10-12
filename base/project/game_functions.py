@@ -33,7 +33,7 @@ def check_keyup_events(event, ship):
         ship.moving_top = False
 
 
-def check_events(ai_settings, screen, ship, bullets):
+def check_events(ai_settings, screen, stats, ship, bullets, play_botton, aliens):
     """响应鼠标和按键事件"""
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -44,6 +44,28 @@ def check_events(ai_settings, screen, ship, bullets):
 
         elif event.type == pygame.KEYUP:
             check_keyup_events(event, ship)
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            mouse_x, mouse_y = pygame.mouse.get_pos()
+            check_play_botton(ai_settings, screen, stats, ship, bullets, aliens, play_botton, mouse_x, mouse_y)
+
+
+def check_play_botton(ai_settings, screen, stats, ship, bullets, aliens, play_botton, mouse_x, mouse_y):
+    """玩家单机Play按钮是开始游戏"""
+    botton_click = play_botton.rect.collidepoint(mouse_x, mouse_y)
+    if botton_click and not stats.game_active:
+        # 隐藏光标
+        pygame.mouse.set_visible(False)
+        # 重置游戏统计信息
+        stats.reset_stats()
+        stats.game_active = True
+
+        # 清空外星人列表和子弹列表
+        aliens.empty()
+        bullets.empty()
+
+        # 创建一群新的外星人，并让火箭居中
+        creat_alien_group(ai_settings, screen, ship, aliens)
+        ship.center_ship()
 
 
 def fire_bullet(ai_settings, screen, ship, bullets):
@@ -53,14 +75,18 @@ def fire_bullet(ai_settings, screen, ship, bullets):
     bullets.add(new_bullet)
 
 
-def update_screen(ai_settings, screen, ship, aliens, bullets):
+def update_screen(ai_settings, screen, stats, ship, aliens, bullets, play_button):
     screen.fill(ai_settings.bg_color)
     # 在飞船和外星人后面重绘所有子弹
     for bullet in bullets.sprites():
         bullet.draw_bullte()
     ship.blitme()
-    # alien.blitme()l
+    # alien.blitme()
     aliens.draw(screen)
+    # 如果游戏处于非活动状态，就绘制Play按钮
+    if not stats.game_active:
+        play_button.draw_button()
+
     # 让最近绘制的屏幕可见
     pygame.display.flip()
 
@@ -163,6 +189,7 @@ def ship_hit(ai_settings, stats, screen, ship, aliens, bullets):
         sleep(0.5)
     else:
         stats.game_active = False
+
 
 def check_aliens_bottom(ai_settings, stats, screen, ship, aliens, bullets):
     """检查是否有外星人到达屏幕底端"""

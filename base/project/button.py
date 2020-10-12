@@ -16,7 +16,7 @@ class Button():
         self.rect = pygame.Rect(0, 0, self.width, self.height)
         self.rect.center = self.screen_rect.center
         # 按钮标签只需要创建一次
-        self.prep_meg(msg)
+        self.prep_msg(msg)
 
     def prep_msg(self, msg):
         """将msg渲染为图像，并使其在按钮上居中"""
