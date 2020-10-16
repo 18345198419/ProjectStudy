@@ -10,7 +10,7 @@ def radr():
     i =0
     a =0
     list=[]
-    for i in range(101):
+    for i in range(5):
 
         url = "https://s3.radarlab.org:5005/"
 
@@ -22,7 +22,7 @@ def radr():
         }
 
         response = requests.request("POST", url, data=payload, headers=headers)
-        r=requests.post()
+        # r=requests.post()
 
         dict_date=json.loads(response.text)
         height=dict_date['result']['ledger']['ledger_index']

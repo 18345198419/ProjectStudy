@@ -21,12 +21,13 @@ class MySQLCommand(object):
 
     def connectMysql(self, db_name):
         try:
-            self.conn = pymysql.connect(host=self.host, port=self.port, user=self.user,passwd=self.password, db=db_name, charset='utf8')
+            self.conn = pymysql.connect(host=self.host, port=self.port, user=self.user, passwd=self.password, db=db_name, charset='utf8')
             self.cursor = self.conn.cursor()
             print('连接成功')
         except:
             print('connect mysql error.')
-        #return self.cursor
+        # return self.cursor
+
     # 查询数据
     def queryMysql(self, table):
         sql = "SELECT * FROM " + table;

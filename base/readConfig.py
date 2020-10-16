@@ -1,10 +1,11 @@
 import configparser
 
-filePath='/Users/zhuyadong/PycharmProjects/test/base/donfig'
+filePath = '/Users/zhuyadong/PycharmProjects/test/base/donfig'
 
 # 读取配置文件
 cf = configparser.ConfigParser()
 cf.read(filePath)
+
 
 def getConfig(test):
     host = cf.get(test, 'host')
@@ -12,5 +13,7 @@ def getConfig(test):
     user = cf.get(test, 'user')
     pwd = cf.get(test, 'pwd')
 
-    return host,post,user,pwd
+    return host, post, user, pwd
+
+
 print(getConfig('test'))
