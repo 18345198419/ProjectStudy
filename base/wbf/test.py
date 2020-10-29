@@ -1,5 +1,4 @@
-from base import db
-import pymysql
+from base.wbf import db
 
 
 class updataDatakey:

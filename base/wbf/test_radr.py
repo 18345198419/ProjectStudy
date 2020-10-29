@@ -2,19 +2,14 @@ import requests
 import json
 
 
-
-
-
 def radr():
 
-    i =0
-    a =0
-    list=[]
     for i in range(5):
 
         url = "https://s3.radarlab.org:5005/"
 
-        payload = "{\n    \"method\": \"ledger\",\n    \"params\": [\n        {\n            \"ledger_index\":\"validated\"\n        }\n    ]\n}"
+        payload = "{\n    \"method\": \"ledger\",\n    \"params\": [\n        {\n            " \
+                  "\"ledger_index\":\"validated\"\n        }\n    ]\n} "
         headers = {
             'content-type': "application/json",
             'cache-control': "no-cache",
@@ -24,8 +19,8 @@ def radr():
         response = requests.request("POST", url, data=payload, headers=headers)
         # r=requests.post()
 
-        dict_date=json.loads(response.text)
-        height=dict_date['result']['ledger']['ledger_index']
+        dict_date = json.loads(response.text)
+        height = dict_date['result']['ledger']['ledger_index']
         print(height)
         # list.append(height)
         # if i>=1:
@@ -33,5 +28,6 @@ def radr():
         #         a=a+1
         #         print('a='+a)
         # i = i+1
+
 
 radr()

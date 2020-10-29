@@ -1,17 +1,19 @@
 # -*- coding: utf-8 -*-
-
-
 import pymysql
-from base import readConfig
+from pymysql.connections import Connection
 
-
+from base.wbf import readConfig
 # 用来操作数据库的类
 
+
+# noinspection PyBroadException
 class MySQLCommand(object):
 
+    conn: Connection
+
     # 类的初始化
-    def __init__(self):
-        a = readConfig.getConfig('test')
+    def __init__(self, test):
+        a = readConfig.getConfig(test)
         self.host = a[0]
         self.port = a[1]
         self.user = a[2]
@@ -41,19 +43,15 @@ class MySQLCommand(object):
 
         return row
 
-
-    # 插入数据
-
-
-    #def insertMysql(self, table,addr_id,token_id,unconfirm_amount,confirm_amount,safe_amount,transferrable,updated):
+    # def insertMysql(self, table,addr_id,token_id,unconfirm_amount,confirm_amount,safe_amount,transferrable,updated):
     def insertMysql(self, table, *filed):
         addr_id = filed[0]
-        token_id=filed[1]
-        unconfirm_amount=filed[2]
-        confirm_amount=filed[3]
-        safe_amount=filed[4]
-        transferrable=[5]
-        updated=filed[6]
+        token_id = filed[1]
+        unconfirm_amount = filed[2]
+        confirm_amount = filed[3]
+        safe_amount = filed[4]
+        transferrable = [5]
+        updated = filed[6]
         print(addr_id)
 
         sql = "INSERT INTO " + table + " VALUES(" + str(addr_id) + "," + str(addr_id) + "," + str(token_id) + "," + \
@@ -67,8 +65,8 @@ class MySQLCommand(object):
         # except:
         #     print("insert failed.")
 
-    # 更新数据
 
+    # 更新数据
     def updateMysqlSN(self, table, *args):
         sql = "UPDATE " + table + " SET sex='" + args + "'" + " WHERE name='" + args + "'"
         print("update sn:" + sql)
@@ -79,12 +77,20 @@ class MySQLCommand(object):
         except:
             self.conn.rollback()
 
+    def insert_addr_exchange(self, table, addr):
+        insert_addr_sql = "insert into " + table + "(address) values" + "('" + addr + "');"
+        print(insert_addr_sql)
+
+        try:
+            self.cursor.execute(insert_addr_sql)
+            self.conn.commit()
+            print("执行成功")
+
+        except:
+            self.conn.rollback()
+
     def closeMysql(self):
         self.cursor.close()
         self.conn.close()
 
 
-# 创建数据库操作类的实例
-#mySQLCommand = MySQLCommand()
-#mySQLCommand.connectMysql(db_name='bsvwallet_zyd')
-# mySQLCommand.queryMysql('int_config')
