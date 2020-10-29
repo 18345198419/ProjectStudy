@@ -1,6 +1,28 @@
+<!--{% load bootstrap3 %}-->
+
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+
+<!--    <head>-->
+<!--        <meta charset="utf-8">-->
+<!--        <meta http-equiv="X-UA-Comatible" content="">-->
+<!--    </head>-->
+
+<!--</html>-->
+
+
+
+
 <p>
-    <a href="{url 'learning_logs:index' %}">Learning Log</a>
+    <p href="{% url 'learning_logs:index' %}">Learning Log</p>
     <a href="{% url 'learning_logs:topics' %}">Topics</a>
+    {% if user.is_authenticated %}
+        hello,{{user.username}}.
+        <a href="{% url 'users:logout' %}">logout</a>
+    {% else %}
+        <a href="{% url 'users:register' %}">register</a>
+        <a href="{% url 'users:login' %}">log in</a>
+    {% endif%}
 </p>
 
 {% block content %}
